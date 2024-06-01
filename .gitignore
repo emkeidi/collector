@@ -1,0 +1,19 @@
+# Node modules
+**/node_modules/
+
+# Java build files
+**/target/
+
+# IDE specific files
+.idea/
+.vscode/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
