@@ -1,7 +1,13 @@
-import React from 'react';
+import React from "react";
+import "../pages/Welcome";
+import Welcome from "../pages/Welcome";
 
 const App: React.FC = () => {
-	return <h1>Welcome to Collector</h1>;
+	return (
+		<>
+			<Welcome />
+		</>
+	);
 };
 
 export default App;

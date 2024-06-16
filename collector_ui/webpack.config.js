@@ -1,71 +1,129 @@
-const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require("path");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = [
 	{
-		entry: './src/main/main.ts',
-		target: 'electron-main',
+		entry: "./src/main/main.ts",
+		target: "electron-main",
 		module: {
 			rules: [
 				{
 					test: /\.tsx?$/,
 					include: /src/,
-					use: 'babel-loader', // Use ts-loader for TypeScript in main process
+					use: "ts-loader",
+				},
+				{
+					test: /\.module\.css$/,
+					use: [
+						process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader,
+						{
+							loader: "css-loader",
+							options: {
+								modules: {
+									localIdentName: "[name]__[local]___[hash:base64:5]",
+								},
+							},
+						},
+					],
+				},
+				{
+					test: /\.css$/,
+					exclude: /\.module\.css$/,
+					use: [process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
 				},
 			],
 		},
 		resolve: {
-			extensions: ['.ts', '.tsx', '.js', '.json'],
+			extensions: [".ts", ".tsx", ".js", ".json", ".css"],
 		},
 		output: {
-			path: path.resolve(__dirname, 'dist'),
-			filename: 'main.js',
+			path: path.resolve(__dirname, "dist"),
+			filename: "main.js",
 		},
 	},
 	{
-		entry: './src/main/preload.js',
-		target: 'electron-preload',
+		entry: "./src/main/preload.js",
+		target: "electron-preload",
 		module: {
 			rules: [
 				{
 					test: /\.js$/,
 					include: /src/,
-					use: 'babel-loader',
+					use: "babel-loader",
+				},
+				{
+					test: /\.module\.css$/,
+					use: [
+						process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader,
+						{
+							loader: "css-loader",
+							options: {
+								modules: true,
+							},
+						},
+					],
+				},
+				{
+					test: /\.css$/,
+					exclude: /\.module\.css$/,
+					use: [process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
 				},
 			],
 		},
 		resolve: {
-			extensions: ['.js'],
+			extensions: [".js", ".css"],
 		},
 		output: {
-			path: path.resolve(__dirname, 'dist'),
-			filename: 'preload.js',
+			path: path.resolve(__dirname, "dist"),
+			filename: "preload.js",
 		},
 	},
 	{
-		entry: './src/renderer/index.tsx',
-		target: 'electron-renderer',
+		entry: "./src/renderer/index.tsx",
+		target: "electron-renderer",
 		module: {
 			rules: [
 				{
 					test: /\.tsx?$/,
 					include: /src/,
-					use: 'babel-loader', // Use babel-loader for TypeScript and JSX in renderer process
+					use: "babel-loader",
+				},
+				{
+					test: /\.module\.css$/,
+					use: [
+						process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader,
+						{
+							loader: "css-loader",
+							options: {
+								modules: {
+									localIdentName: "[name]__[local]___[hash:base64:5]",
+								},
+							},
+						},
+					],
+				},
+				{
+					test: /\.css$/,
+					exclude: /\.module\.css$/,
+					use: [process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
 				},
 			],
 		},
 		resolve: {
-			extensions: ['.ts', '.tsx', '.js', '.json'],
+			extensions: [".ts", ".tsx", ".js", ".json", ".css"],
 		},
 		output: {
-			path: path.resolve(__dirname, 'dist'),
-			filename: 'renderer.js',
+			path: path.resolve(__dirname, "dist"),
+			filename: "renderer.js",
 		},
 		plugins: [
+			new MiniCssExtractPlugin({
+				filename: "[name].css",
+				chunkFilename: "[id].css",
+			}),
 			new CopyWebpackPlugin({
-				patterns: [
-					{ from: 'public', to: 'public' }, // Copy everything from public to dist/public
-				],
+				patterns: [{ from: "public", to: "public" }],
 			}),
 		],
 	},
