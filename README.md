@@ -1,15 +1,11 @@
 # Collector
 
-A solution grown from the desire for a simple way to add entries to specific tables of a database.
+Collector is a tool for adding some data to my various database tables in the hopes of using the data in a cool way later, but first someone has to collect all of the details that make up the data. Day one will likely be forms to collect data and viewing lists, and day two will be ingesting data from files and other sources... and then we should have a nice mess of data to play with.
 
-The Collector API will control insertions to a database.
+Collector. Go get what you like and _collect_ it.
+
+This is a personal project to learn more about Java, Spring Boot, and Electron.
 
 The backend uses Java 21 and Spring Boot with Maven.
 
-The first frontend client will be an Electron app written using TypeScript and React.
-
-The database will be a relational database like MySQL to start simple and support speedy reads.
-
-This won't be an overcomplicated setup, useful mainly for a clean way to keep my database updates rolling regularly. I'm sure tools like this exist aplenty, but this is also an excuse for me to build a baby app and consider whether web hosting wouldn't suit my needs better.
-
-If I can find some desktop-only functionality, all the better.
+Frontend client using Electron with TypeScript and React.
