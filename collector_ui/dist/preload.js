@@ -1,1 +1,0 @@
-window.addEventListener("DOMContentLoaded",(function(){for(var e,n,o,t=0,r=["chrome","node","electron"];t<r.length;t++){var d=r[t];e="".concat(d,"-version"),n=process.versions[d],o=void 0,(o=document.getElementById(e))&&(o.innerText=n)}}));

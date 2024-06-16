@@ -32,10 +32,21 @@ module.exports = [
 					exclude: /\.module\.css$/,
 					use: [process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
 				},
+				{
+					test: /\.png$/,
+					use: [
+						{
+							loader: "file-loader",
+							options: {
+								name: "[path][name].[ext]",
+							},
+						},
+					],
+				},
 			],
 		},
 		resolve: {
-			extensions: [".ts", ".tsx", ".js", ".json", ".css"],
+			extensions: [".ts", ".tsx", ".js", ".json", ".css", ".png"],
 		},
 		output: {
 			path: path.resolve(__dirname, "dist"),
@@ -69,10 +80,21 @@ module.exports = [
 					exclude: /\.module\.css$/,
 					use: [process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
 				},
+				{
+					test: /\.png$/,
+					use: [
+						{
+							loader: "file-loader",
+							options: {
+								name: "[path][name].[ext]",
+							},
+						},
+					],
+				},
 			],
 		},
 		resolve: {
-			extensions: [".js", ".css"],
+			extensions: [".js", ".css", ".png"],
 		},
 		output: {
 			path: path.resolve(__dirname, "dist"),
@@ -108,10 +130,21 @@ module.exports = [
 					exclude: /\.module\.css$/,
 					use: [process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader"],
 				},
+				{
+					test: /\.png$/,
+					use: [
+						{
+							loader: "file-loader",
+							options: {
+								name: "[path][name].[ext]",
+							},
+						},
+					],
+				},
 			],
 		},
 		resolve: {
-			extensions: [".ts", ".tsx", ".js", ".json", ".css"],
+			extensions: [".ts", ".tsx", ".js", ".json", ".css", ".png"],
 		},
 		output: {
 			path: path.resolve(__dirname, "dist"),

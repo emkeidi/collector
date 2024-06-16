@@ -2,11 +2,31 @@
 	"name": "collector",
 	"version": "1.0.0",
 	"description": "",
-	"directories": {},
 	"main": "dist/main.js",
 	"scripts": {
 		"start": "electron .",
-		"build": "webpack"
+		"build": "webpack",
+		"dist": "electron-builder"
+	},
+	"build": {
+		"appId": "com.example.collector",
+		"directories": {
+			"buildResources": "public"
+		},
+		"files": [
+			"dist/**/*",
+			"node_modules/**/*",
+			"package.json"
+		],
+		"win": {
+			"icon": "public/icons/collector_no_background_mock.png"
+		},
+		"mac": {
+			"icon": "public/icons/collector_no_background_mock.png"
+		},
+		"linux": {
+			"icon": "public/icons/collector_no_background_mock.png"
+		}
 	},
 	"keywords": [],
 	"author": "",
@@ -16,21 +36,34 @@
 		"@babel/preset-env": "^7.24.7",
 		"@babel/preset-react": "^7.24.7",
 		"@babel/preset-typescript": "^7.24.7",
+		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",
 		"babel-loader": "^9.1.3",
 		"copy-webpack-plugin": "^12.0.2",
 		"css-loader": "^7.1.2",
 		"electron": "^30.1.1",
+		"electron-builder": "^24.13.3",
+		"file-loader": "^6.2.0",
 		"mini-css-extract-plugin": "^2.9.0",
+		"postcss": "^8.4.38",
+		"postcss-loader": "^8.1.1",
+		"postcss-preset-mantine": "^1.15.0",
+		"postcss-simple-vars": "^7.0.1",
+		"react-refresh": "^0.14.2",
 		"style-loader": "^4.0.0",
 		"ts-loader": "^9.5.1",
 		"typescript": "^5.4.5",
-		"webpack-cli": "^5.1.4"
+		"webpack": "^5.92.0",
+		"webpack-cli": "^5.1.4",
+		"webpack-dev-server": "^5.0.4"
 	},
 	"dependencies": {
+		"@mantine/core": "^7.10.2",
+		"@mantine/form": "^7.10.2",
+		"@mantine/hooks": "^7.10.2",
+		"@mantine/modals": "^7.10.2",
 		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"webpack": "^5.92.0"
+		"react-dom": "^18.3.1"
 	}
 }

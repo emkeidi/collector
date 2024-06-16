@@ -8,23 +8,38 @@ body {
     height: 100vh;
     margin: 0;
     padding: 0;
+    background-color: #ffe6c9;
 }
 
 .welcomeDiv {
     font-family: 'Barlow', sans-serif;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
+    gap: 20px;
     align-items: center;
     height: 100vh;
-    max-width: 800px;
+    width: 100vw;
 }
 
+/* .welcomeDiv img {
+    margin-bottom: 20px;
+} */
+
 .welcomeDiv h1 {
+    font-family: 'Barlow', sans-serif;
     text-align: center;
-    font-size: 3rem;
+    font-size: 2rem;
     margin-bottom: 1rem;
-    font-weight: 800;
+    font-weight: 900;
+    font-style: normal;
+    background-color: lemonchiffon;
+    padding: 1.5rem;
+    border-color: aqua;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 10px;
+    max-height: 100px;
 }
 
 .welcomeDiv p {
@@ -47,4 +62,9 @@ body {
 
 .welcomeDiv button:hover {
     background-color: #0056b3;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
 }
