@@ -25,8 +25,8 @@ public class SecurityConfig {
                                            AuthenticationConfiguration authConfig) throws
                                                                                    Exception {
 
-        http.
-                csrf(AbstractHttpConfigurer::disable)
+        http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz ->
                         {
                             try {
@@ -55,15 +55,15 @@ public class SecurityConfig {
                                         .hasAnyAuthority("ADMIN", "USER")
                                         .requestMatchers(HttpMethod.DELETE, "/api/house/*")
                                         .hasAuthority("ADMIN")
-                                        .requestMatchers("/**").denyAll()
-                                        .and()
-                                        .addFilter(new JwtRequestFilter(authenticationManager(authConfig), converter))
-                                        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                                        .requestMatchers("/**").denyAll();
+
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
-                );
+                )
+                .addFilter(new JwtRequestFilter(authenticationManager(authConfig), converter))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
 

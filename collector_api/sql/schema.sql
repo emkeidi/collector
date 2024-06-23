@@ -22,7 +22,7 @@ create table app_user (
 
 create table app_role (
     app_role_id int generated always as identity primary key,
-    `name` varchar(50) not null unique,
+    name varchar(50) not null unique,
     description varchar(255)
 );
 

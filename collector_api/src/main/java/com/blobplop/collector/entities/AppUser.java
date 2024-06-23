@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @Table(name = "app_user")
 public class AppUser implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
     private long appUserId;
 
     @Column(name = "username", nullable = false, unique = true)
@@ -27,7 +27,7 @@ public class AppUser implements UserDetails {
     private String email;
 
     // nullable because of social login option
-    @Column(name = "password")
+    @Column(name = "password_hash")
     private String password;
 
     @Column(name = "enabled")
@@ -61,8 +61,8 @@ public class AppUser implements UserDetails {
         return appUserId;
     }
 
-    public void setAppUserId(Long id) {
-        this.appUserId = id;
+    public void setAppUserId(Long appUserId) {
+        this.appUserId = appUserId;
     }
 
     public AppUser() {
@@ -79,11 +79,12 @@ public class AppUser implements UserDetails {
     }
 
     public AppUser(int appUserId, String username, String password,
-                   String email,
+                   String email, String createdAt,
                    boolean enabled, List<String> roles) {
         this.appUserId = appUserId;
         this.username = username;
         this.password = password;
+        this.createdAt = createdAt;
         this.email = email;
         this.enabled = enabled;
         this.authorities = convertRolesToAuthorities(roles);

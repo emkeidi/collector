@@ -44,7 +44,11 @@ public class AppUserService implements UserDetailsService {
 
         password = encoder.encode(password);
 
-        AppUser appUser = new AppUser(0, username, password, email, true, List.of("USER"));
+        String createdAt = java.time.LocalDateTime.now().toString();
+
+        AppUser appUser = new AppUser(0, username, password, email, createdAt
+                , true,
+                List.of("USER"));
 
         // Check if username already exists
         if (repository.findByUsername(username) != null) {

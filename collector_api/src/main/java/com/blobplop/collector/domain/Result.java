@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Result<T> {
     private ActionStatus status = ActionStatus.SUCCESS;
-    private ArrayList<String> messages = new ArrayList<>();
+    private final ArrayList<String> messages = new ArrayList<>();
     private T payload;
 
     public ActionStatus getStatus() {

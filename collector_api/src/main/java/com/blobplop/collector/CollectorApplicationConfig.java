@@ -44,4 +44,5 @@ public class CollectorApplicationConfig {
         return new JwtConverter();
     }
 
+
 }
