@@ -6,10 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -30,28 +27,28 @@ public class AppUser implements UserDetails {
     @Column(name = "password_hash")
     private String password;
 
-    @Column(name = "enabled")
     private boolean enabled;
 
     // name of the provider, e.g. "local" or "google"
-    @Column(name = "provider")
     private String provider;
 
-    // id of the provider, e.g. "local" or "google"
-    @Column(name = "provider_id")
     private String providerId;
 
-    @Column(name = "created_at")
     private String createdAt;
 
-    @Column(name = "updated_at")
     private String updatedAt;
 
-    @Column(name = "last_login")
     private String lastLogin;
 
-    @Column(name = "failed_login_attempts")
     private int failedLoginAttempts;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "app_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     @Transient
     private Collection<GrantedAuthority> authorities;
@@ -133,7 +130,9 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        return new ArrayList<>(authorities);
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+                .collect(Collectors.toList());
     }
 
     public String getUsername() {
@@ -215,6 +214,14 @@ public class AppUser implements UserDetails {
     public void setFailedLoginAttempts(int failedLoginAttempts) {
         this.failedLoginAttempts = failedLoginAttempts;
     }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
 
     @Override
     public boolean equals(Object o) {

@@ -39,6 +39,13 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers(HttpMethod.POST, "/refresh_token")
                                         .authenticated()
+                                        .requestMatchers(HttpMethod.GET,
+                                                "/api/quote", "/api/quote/*")
+                                        .permitAll()
+                                        .requestMatchers(HttpMethod.PUT, "/api/quote/*")
+                                        .permitAll()
+                                        .requestMatchers(HttpMethod.POST, "/api/quote")
+                                        .permitAll()
                                         .requestMatchers(HttpMethod.GET, "/api/buyer", "/api/buyer/*",
                                                 "/api/buyer/user/*")
                                         .permitAll()

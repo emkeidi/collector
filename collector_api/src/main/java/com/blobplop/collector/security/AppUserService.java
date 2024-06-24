@@ -3,31 +3,38 @@ package com.blobplop.collector.security;
 import com.blobplop.collector.domain.ActionStatus;
 import com.blobplop.collector.domain.Result;
 import com.blobplop.collector.entities.AppUser;
+import com.blobplop.collector.entities.Role;
 import com.blobplop.collector.repositories.AppUserRepository;
+import com.blobplop.collector.repositories.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class AppUserService implements UserDetailsService {
-    private final AppUserRepository repository;
-    private final PasswordEncoder encoder;
+    @Autowired
+    private AppUserRepository appUserRepository;
 
-    public AppUserService(AppUserRepository repository,
-                          PasswordEncoder encoder) {
-        this.repository = repository;
-        this.encoder = encoder;
-    }
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws
                                                            UsernameNotFoundException {
-        AppUser appUser = repository.findByUsername(username);
+        AppUser appUser = appUserRepository.findByUsername(username);
 
         if (appUser == null || !appUser.isEnabled()) {
             throw new UsernameNotFoundException(username + " not found");
@@ -36,6 +43,7 @@ public class AppUserService implements UserDetailsService {
         return appUser;
     }
 
+    @Transactional
     public Result<AppUser> create(String username, String password, String email) {
         Result<AppUser> result = validate(username, password, email);
         if (!result.isSuccess()) {
@@ -47,23 +55,32 @@ public class AppUserService implements UserDetailsService {
         String createdAt = java.time.LocalDateTime.now().toString();
 
         AppUser appUser = new AppUser(0, username, password, email, createdAt
-                , true,
-                List.of("USER"));
+                , true, List.of("USER"));
 
         // Check if username already exists
-        if (repository.findByUsername(username) != null) {
+        if (appUserRepository.findByUsername(username) != null) {
             result.addMessage(ActionStatus.INVALID, "The provided username " + username + " already exists");
             return result;
         }
 
         // Check if email already exists
-        if (repository.findByEmail(email) != null) {
+        if (appUserRepository.findByEmail(email) != null) {
             result.addMessage(ActionStatus.INVALID, "The provided email " + email + " already exists");
             return result;
         }
 
+        // Create a USER role if it doesn't exist
+        // All users will have the USER role
+        Role userRole = roleRepository.findByRoleName("USER");
+        if (userRole == null) {
+            userRole = new Role();
+            userRole.setRoleName("USER");
+            roleRepository.save(userRole);
+        }
+        appUser.setRoles(Collections.singleton(userRole));
+
         try {
-            appUser = repository.save(appUser);
+            appUser = appUserRepository.save(appUser);
             result.setPayload(appUser);
         } catch (DuplicateKeyException e) {
             // This catch block may not be necessary anymore if you're checking for duplicates beforehand

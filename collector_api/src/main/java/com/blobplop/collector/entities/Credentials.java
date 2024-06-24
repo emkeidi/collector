@@ -1,22 +1,13 @@
 package com.blobplop.collector.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "credentials")
 public class Credentials {
 
-    @Id
-    @Column(name = "username", nullable = false, unique = true)
+    // exists to help validate incoming account creation requests
+
     private String username;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
     private String email;
 
     public Credentials() {

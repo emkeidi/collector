@@ -5,6 +5,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +16,8 @@ import java.io.IOException;
 
 public class JwtRequestFilter extends BasicAuthenticationFilter {
     private final JwtConverter converter;
+
+    Logger logger = LoggerFactory.getLogger(JwtRequestFilter.class);
 
     public JwtRequestFilter(AuthenticationManager authenticationManager,
                             JwtConverter converter) {
@@ -41,6 +45,7 @@ public class JwtRequestFilter extends BasicAuthenticationFilter {
                 UsernamePasswordAuthenticationToken token =
                         new UsernamePasswordAuthenticationToken(
                                 user, null, user.getAuthorities());
+
 
                 SecurityContextHolder.getContext().setAuthentication(token);
             }
