@@ -1,0 +1,6 @@
+# liquibase.properties.template
+changeLogFile=src/main/resources/db/changelog/dbchangelog.xml
+url=jdbc:postgresql://<host>:<port>/<database>
+username=${DB_USER}
+password=${DB_PASS}
+driver=org.postgresql.Driver

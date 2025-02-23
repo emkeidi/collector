@@ -1,0 +1,199 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Matt (generated)" id="1725760062063-7">
+        <createTable tableName="Rating">
+            <column autoIncrement="true" name="ratingId" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="RatingPK"/>
+            </column>
+            <column name="numberOfVotes" type="INTEGER"/>
+            <column name="score" type="INTEGER"/>
+            <column name="totalScore" type="FLOAT(53)"/>
+            <column name="userId" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-8">
+        <addColumn tableName="app_user">
+            <column name="createdAt" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-9">
+        <addColumn tableName="quote">
+            <column name="dateAdded" type="date"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-10">
+        <addColumn tableName="quote">
+            <column name="dateDeleted" type="date"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-11">
+        <addColumn tableName="quote">
+            <column name="deleteReason" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-12">
+        <addColumn tableName="app_user">
+            <column name="failedLoginAttempts" type="integer">
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-13">
+        <addColumn tableName="quote">
+            <column name="flagReason" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-14">
+        <addColumn tableName="quote">
+            <column name="isApproved" type="boolean"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-15">
+        <addColumn tableName="quote">
+            <column name="isDeleted" type="boolean"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-16">
+        <addColumn tableName="quote">
+            <column name="isFlagged" type="boolean"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-17">
+        <addColumn tableName="app_user">
+            <column name="lastLogin" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-18">
+        <addColumn tableName="app_user">
+            <column name="providerId" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-19">
+        <addColumn tableName="quote">
+            <column autoIncrement="true" name="quoteId" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-20">
+        <addColumn tableName="Role">
+            <column autoIncrement="true" name="roleId" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-21">
+        <addColumn tableName="Role">
+            <column name="roleName" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-22">
+        <addColumn tableName="app_user">
+            <column name="updatedAt" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-23">
+        <addColumn tableName="quote">
+            <column name="userId" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-24">
+        <createIndex indexName="IX_QuotePK" tableName="quote" unique="true">
+            <column defaultValueComputed="nextval('quote_quoteid_seq'::regclass)" name="quoteId"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-25">
+        <createIndex indexName="IX_RolePK" tableName="Role" unique="true">
+            <column defaultValueComputed="nextval('role_roleid_seq'::regclass)" name="roleId"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-26">
+        <createIndex indexName="IX_app_user_rolePK" tableName="app_user_role" unique="true">
+            <column name="user_id"/>
+            <column name="role_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-27">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="app_user_role" constraintName="FKfc4pfjyfxuewout2hhs546ksf" deferrable="false" initiallyDeferred="false" referencedColumnNames="roleId" referencedTableName="Role" validate="true"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-28">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="app_user_role" constraintName="FKfnlxi1bmv5ao8u3nf30ymq7xa" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="app_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-29">
+        <dropUniqueConstraint constraintName="mc_stats_id_key" tableName="mc_stat"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-30">
+        <dropTable tableName="_prisma_migrations"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-31">
+        <dropTable tableName="mc_stat"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-32">
+        <dropColumn columnName="quote_id" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-33">
+        <dropColumn columnName="role_id" tableName="Role"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-34">
+        <dropColumn columnName="created_at" tableName="app_user"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-35">
+        <dropColumn columnName="date_added" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-36">
+        <dropColumn columnName="date_deleted" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-37">
+        <dropColumn columnName="delete_reason" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-38">
+        <dropColumn columnName="failed_login_attempts" tableName="app_user"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-39">
+        <dropColumn columnName="flag_reason" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-40">
+        <dropColumn columnName="is_approved" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-41">
+        <dropColumn columnName="is_deleted" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-42">
+        <dropColumn columnName="is_flagged" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-43">
+        <dropColumn columnName="last_login" tableName="app_user"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-44">
+        <dropColumn columnName="provider_id" tableName="app_user"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-45">
+        <dropColumn columnName="role_name" tableName="role"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-46">
+        <dropColumn columnName="updated_at" tableName="app_user"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-47">
+        <dropColumn columnName="user_id" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-48">
+        <dropSequence sequenceName="app_user_seq"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-1">
+        <dropPrimaryKey tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-2">
+        <addPrimaryKey columnNames="quoteId" constraintName="QuotePK" tableName="quote"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-3">
+        <dropPrimaryKey tableName="Role"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-4">
+        <addPrimaryKey columnNames="roleId" constraintName="RolePK" tableName="Role"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-5">
+        <dropPrimaryKey tableName="app_user_role"/>
+    </changeSet>
+    <changeSet author="Matt (generated)" id="1725760062063-6">
+        <addPrimaryKey columnNames="user_id, role_id" constraintName="app_user_rolePK" tableName="app_user_role"/>
+    </changeSet>
+</databaseChangeLog>

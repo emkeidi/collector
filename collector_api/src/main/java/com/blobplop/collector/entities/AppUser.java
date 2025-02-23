@@ -121,19 +121,29 @@ public class AppUser implements UserDetails {
         this.authorities = convertRolesToAuthorities(roles);
 
     }
+/**
+ * Converts a list of role names into a collection of GrantedAuthority objects.
+ *
+ * @param roles A list of role names.
+ * @return A collection of GrantedAuthority objects.
+ */
+private static Collection<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
+    return roles.stream()
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toList());
+}
 
-    private static Collection<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
-        return roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Collection<GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
-                .collect(Collectors.toList());
-    }
+/**
+ * Returns a collection of GrantedAuthority objects based on the roles assigned to the user.
+ *
+ * @return A collection of GrantedAuthority objects.
+ */
+@Override
+public Collection<GrantedAuthority> getAuthorities() {
+    return roles.stream()
+            .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+            .collect(Collectors.toList());
+}
 
     public String getUsername() {
         return username;

@@ -34,3 +34,10 @@ build/
 
 **/*.crt
 **/*.p12
+
+src/main/resources/liquibase.properties
+
+
+# env
+.env
+.env.*

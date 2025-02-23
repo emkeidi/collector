@@ -74,20 +74,29 @@ public class QuoteService {
         return result;
     }
 
-    private Result<Quote> validate(Quote quote) {
+    Result<Quote> validate(Quote quote) {
         Result<Quote> result = new Result<>();
         if (quote == null) {
             result.addMessage(ActionStatus.INVALID, "Quote cannot be null.");
             return result;
         }
-        if (quote.getQuote().length() < 1) {
+        if (quote.getQuote() == null || quote.getQuote().isBlank()) {
             result.addMessage(ActionStatus.INVALID, "'quote' should be set.");
         }
-        if (quote.getAuthor().length() < 1) {
+        if (quote.getSource() != null && quote.getSource().isEmpty()) {
             result.addMessage(ActionStatus.INVALID, "'author' should be set.");
         }
+        if (quote.getSource() != null && quote.getSource().length() > 255) {
+            result.addMessage(ActionStatus.INVALID, "'author' should be less " +
+                    "than 255 characters.");
+        }
+        if (quote.getQuoteId() > 0 && !quoteRepository.existsById(quote.getQuoteId())) {
+            result.addMessage(ActionStatus.NOT_FOUND, notFoundMessage(quote.getQuoteId()));
+        }
         if (isDuplicate(quote)) {
-            result.addMessage(ActionStatus.INVALID, "Quote already exists.");
+            result.addMessage(ActionStatus.INVALID, "Quote already exists for" +
+                    " this user" +
+                    ".");
         }
         return result;
     }
@@ -95,12 +104,14 @@ public class QuoteService {
     private boolean isDuplicate(Quote quote) {
         List<Quote> quotes = quoteRepository.findAll();
         for (Quote q : quotes) {
-            if (q.getQuote().equals(quote.getQuote()) && q.getAuthor().equals(quote.getAuthor())) {
+            if (q.getQuote().equals(quote.getQuote()) &&
+                    (q.getSource() == null && quote.getSource() == null ||
+                            q.getSource() != null && q.getSource().equals(quote.getSource()))) {
                 return true;
             }
         }
         return false;
-    };
+    }
 
     private String notFoundMessage(long quoteId) {
         return String.format("Quote with id: '%s' was not found.", quoteId);
